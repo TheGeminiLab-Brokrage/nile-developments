@@ -171,7 +171,6 @@ footer a { color: #fff; }
         <p class="for">For the sales agents</p>
         <p class="was num"><s>EGP 40,000</s> · 50% off</p>
         <p class="price num">20,000 <small>EGP</small></p>
-        <p class="vat num">plus 14% VAT: 22,800 in total</p>
         <ul>
           <li>The app, built in Nile’s brand</li>
           <li>One project included</li>
@@ -185,7 +184,6 @@ footer a { color: #fff; }
         <p class="for">For the whole sales organisation</p>
         <p class="was num"><s>EGP 120,000</s> · 50% off</p>
         <p class="price num">60,000 <small>EGP</small></p>
-        <p class="vat num">plus 14% VAT: 68,400 in total</p>
         <ul>
           <li>Everything in Reach</li>
           <li>Manager, director, CCO and admin access</li>
@@ -247,20 +245,18 @@ footer a { color: #fff; }
       <tbody>
         <tr><td>List price<small>App build and one project</small></td><td class="r">40,000</td><td class="r">120,000</td></tr>
         <tr><td>Discount, 50%</td><td class="r">−20,000</td><td class="r">−60,000</td></tr>
-        <tr class="sum"><td>Price</td><td class="r">20,000</td><td class="r">60,000</td></tr>
-        <tr><td>VAT, 14%</td><td class="r">2,800</td><td class="r">8,400</td></tr>
-        <tr class="sum"><td>Total to pay</td><td class="r">22,800</td><td class="r">68,400</td></tr>
-        <tr><td>Each extra project<small>Plus 14% VAT: 5,700</small></td><td class="r">5,000</td><td class="r">5,000</td></tr>
-        <tr><td>Maintenance and updates, per month<small>Plus 14% VAT: 2,280. Starts one month after delivery</small></td><td class="r">2,000</td><td class="r">2,000</td></tr>
-        <tr class="sum"><td>First-year total with VAT<small>One project, 11 months of maintenance</small></td><td class="r">47,880</td><td class="r">93,480</td></tr>
+        <tr class="sum"><td>Total to pay</td><td class="r">20,000</td><td class="r">60,000</td></tr>
+        <tr><td>Each extra project</td><td class="r">5,000</td><td class="r">5,000</td></tr>
+        <tr><td>Maintenance and updates, per month<small>Starts one month after delivery</small></td><td class="r">2,000</td><td class="r">2,000</td></tr>
+        <tr class="sum"><td>First-year total<small>One project, 11 months of maintenance</small></td><td class="r">42,000</td><td class="r">82,000</td></tr>
       </tbody>
     </table>
 
     <div class="calc noprint">
       <h3>Your first-year cost, by number of projects</h3>
       <div class="step"><button type="button" id="less" aria-label="One project fewer">−</button><output id="n" aria-live="polite">1 project</output><button type="button" id="more" aria-label="One project more">+</button></div>
-      <div class="out num"><div><span>Reach, with VAT</span><b id="yr">47,880</b></div><div><span>Pulse, with VAT</span><b id="yp">93,480</b></div></div>
-      <p class="small">EGP. The price, extra projects and 11 months of maintenance, all with VAT.</p>
+      <div class="out num"><div><span>Reach</span><b id="yr">42,000</b></div><div><span>Pulse</span><b id="yp">82,000</b></div></div>
+      <p class="small">EGP. The price, extra projects and 11 months of maintenance.</p>
     </div>
   </section>
 
@@ -298,20 +294,20 @@ footer a { color: #fff; }
 
 <footer>
   <div class="wrap co">
-    <div><b>The Gemini Lab for Digital Innovations</b><br>6 Mostafa Refaat Street, El Nozha, Cairo<br>Commercial register 270107 · Tax and VAT 769-550-517</div>
+    <div><b>The Gemini Lab for Digital Innovations</b><br>6 Mostafa Refaat Street, El Nozha, Cairo<br>Commercial register 270107 · Tax registration 769-550-517</div>
     <div><b>Muhanad Shaheen</b><br><a href="mailto:info@thegeminilab.com">info@thegeminilab.com</a></div>
   </div>
 </footer>
 
 <script>
 (function () {
-  var n = 1, VAT = 1.14, YEAR = 22000, EXTRA = 5000;
+  var n = 1, YEAR = 22000, EXTRA = 5000;
   var f = function (x) { return Math.round(x).toLocaleString('en-US'); };
   function draw() {
     document.getElementById('n').textContent = n + (n === 1 ? ' project' : ' projects');
     var add = YEAR + (n - 1) * EXTRA;
-    document.getElementById('yr').textContent = f((20000 + add) * VAT);
-    document.getElementById('yp').textContent = f((60000 + add) * VAT);
+    document.getElementById('yr').textContent = f(20000 + add);
+    document.getElementById('yp').textContent = f(60000 + add);
     document.getElementById('less').disabled = n === 1;
   }
   document.getElementById('less').addEventListener('click', function () { if (n > 1) { n--; draw(); } });
