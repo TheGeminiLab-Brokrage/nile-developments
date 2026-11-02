@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: 'unsafe-inline'; frame-src 'self' blob:; form-action 'none'; base-uri 'none'">
+<title>Try the app</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root { --ink: #16181c; --mute: #5d5f66; --line: #e4dfd7; --soft: #f7f4ef; --paper: #fff; --accent: #866D45; --deep: #15171b; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--soft); color: var(--ink); font: 400 15px/1.5 Manrope, 'IBM Plex Sans Arabic', system-ui, sans-serif; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+button, a { font-family: inherit; }
+.bar { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px; padding-top: max(8px, env(safe-area-inset-top)); background: var(--paper); border-bottom: 1px solid var(--line); min-height: 52px; }
+.back { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap; }
+.seg { display: flex; border: 1px solid var(--ink); border-radius: 999px; padding: 2px; margin-inline-start: auto; }
+.seg button { border: 0; background: none; color: var(--ink); font-size: 14px; font-weight: 600; padding: 6px 15px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed=true] { background: var(--ink); color: #fff; }
+.seg button.go { background: var(--accent); color: #fff; animation: ask 1.5s ease-in-out infinite; }
+@keyframes ask { 50% { box-shadow: 0 0 0 6px rgba(134,109,69,.22); } }
+.tools { display: flex; gap: 6px; margin-inline-start: auto; }
+.tool { border: 1px solid var(--line); background: none; color: var(--ink); font-size: 13px; font-weight: 600; padding: 7px 11px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.tool:hover { border-color: var(--ink); }
+.strip { flex: none; text-align: center; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--soft); border-bottom: 1px solid var(--line); padding: 3px 12px; }
+.main { flex: 1; min-height: 0; display: flex; }
+.side { display: none; width: 330px; flex: none; padding: 32px 30px; overflow: auto; }
+.side h1 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.015em; margin: 0; }
+.side .who { color: var(--mute); margin: 8px 0 0; }
+.side ol { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 13px; counter-reset: n; }
+.side li { counter-increment: n; display: grid; grid-template-columns: 26px 1fr; font-size: 15px; }
+.side li::before { content: counter(n); color: var(--accent); font-weight: 600; }
+.side .all { font-size: 13px; color: var(--mute); margin: 24px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.stage { flex: 1; min-width: 0; min-height: 0; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--deep); }
+#frame { display: block; border: 0; background: #000; width: 100%; height: 100%; }
+.case { width: 100%; height: 100%; }
+.wait { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #cfccc5; font-size: 14px; background: var(--deep); transition: opacity .3s; text-align: center; padding: 20px; }
+.wait[hidden] { display: none; }
+.spin { width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; animation: sp .9s linear infinite; }
+@keyframes sp { to { transform: rotate(360deg); } }
+.tell { position: absolute; left: 50%; top: 64px; transform: translateX(-50%); width: min(92%, 360px); background: #fff; color: var(--ink); border-radius: 14px; padding: 12px 14px; font-size: 14px; line-height: 1.4; box-shadow: 0 10px 30px rgba(0,0,0,.35); display: flex; gap: 10px; align-items: flex-start; }
+.tell[hidden] { display: none; }
+.tell button { border: 0; background: none; font-size: 17px; line-height: 1; cursor: pointer; color: var(--mute); padding: 1px 2px; }
+.tell span { flex: 1; }
+/* a laptop or a tablet: the app in a phone, as tall as the window allows */
+body.framed .stage { background: var(--soft); }
+body.framed .case { flex: none; width: 406px; height: 860px; padding: 8px; background: #101114; border-radius: 46px; box-shadow: 0 20px 60px rgba(20,20,25,.28); transform-origin: center; }
+body.framed #frame { width: 390px; height: 844px; border-radius: 38px; }
+body.framed .wait { border-radius: 46px; }
+/* Pulse on a laptop opens wide, as a manager would read it */
+body.framed.wide .case { width: 100%; height: 100%; padding: 0; background: none; border-radius: 0; box-shadow: none; transform: none !important; }
+body.framed.wide #frame { width: 100%; height: 100%; border-radius: 0; }
+@media (min-width: 900px) { .side { display: block; } }
+@media (max-width: 470px) { .bar { gap: 6px; padding-inline: 10px; } .seg button { padding: 6px 11px; } .tool { padding: 7px 9px; font-size: 12px; } .back { font-size: 13px; } }
+html[dir=rtl] .side h1 { letter-spacing: 0; line-height: 1.35; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="back" id="back" href="../"><span data-t>Quotation</span></a>
+  <div class="seg" role="group" aria-label="Choose"><button type="button" id="reach">Reach</button><button type="button" id="pulse">Pulse</button></div>
+  <div class="tools"><button type="button" class="tool" id="again"><span data-t>Start again</span></button><button type="button" class="tool" id="lang" lang="ar">العربية</button></div>
+</header>
+<div class="strip"><span data-t>Sample data. Every price, company and name is invented.</span></div>
+<div class="main">
+  <aside class="side">
+    <div id="sideReach">
+      <h1><span data-t>Try Reach</span></h1>
+      <p class="who"><span data-t>You are the sales agent.</span></p>
+      <ol><li><span data-t>Tap the broker’s message.</span></li><li><span data-t>Open Clinics and find the unit.</span></li><li><span data-t>Send the offer on WhatsApp.</span></li><li><span data-t>Open Pulse and see it recorded.</span></li></ol>
+    </div>
+    <div id="sidePulse" hidden>
+      <h1><span data-t>Try Pulse</span></h1>
+      <p class="who"><span data-t>You are the sales manager.</span></p>
+      <ol><li><span data-t>Read today’s team activity.</span></li><li><span data-t>Open Companies and tap a company.</span></li><li><span data-t>Open Team and tap a sales agent.</span></li><li><span data-t>Open Analysis and make a report.</span></li></ol>
+    </div>
+    <p class="all"><span data-t>This demo shows the sales agent and the manager.</span></p>
+  </aside>
+  <div class="stage">
+    <div class="case" id="case"><iframe id="frame" title="The app" allow="clipboard-write"></iframe></div>
+    <div class="wait" id="wait"><span class="spin"></span><span data-t>Opening the app…</span></div>
+    <div class="tell" id="tell" hidden role="status"><span id="tellText"></span><button type="button" id="tellX" aria-label="Close">✕</button></div>
+  </div>
+</div>
+<script src="../assets/ar.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var AR = window.AR || {}, qs = new URLSearchParams(location.search);
+  var app = qs.get('app') === 'pulse' ? 'pulse' : 'reach', lang = qs.get('lang') === 'ar' ? 'ar' : 'en', sent = null, tellT = null, loads = 0;
+  var frame = $('frame'), caseBox = $('case');
+  var words = [].map.call(document.querySelectorAll('[data-t]'), function (el) { return { el: el, en: el.textContent }; });
+  var say = function (en) { return lang === 'ar' && AR[en] ? AR[en] : en; };
+  var store = function () { try { return window.sessionStorage; } catch (e) { return null; } };
+  try { var was = store().getItem('try.sent'); if (was) sent = JSON.parse(was); } catch (e) { }
+
+  function tell(text, ms) {
+    $('tellText').textContent = text; $('tell').hidden = false;
+    clearTimeout(tellT); if (ms) tellT = setTimeout(function () { $('tell').hidden = true; }, ms);
+  }
+  function fit() {
+    var w = window.innerWidth, framed = w >= 600, wide = app === 'pulse' && w >= 900;
+    document.body.classList.toggle('framed', framed); document.body.classList.toggle('wide', framed && wide);
+    if (framed && !wide) {
+      var st = $('case').parentNode.getBoundingClientRect(), s = Math.min(1, (st.height - 20) / 860, (st.width - 20) / 406);
+      caseBox.style.transform = 'scale(' + s.toFixed(3) + ')';
+    } else caseBox.style.transform = '';
+  }
+  function dress() {
+    var ar = lang === 'ar', root = document.documentElement;
+    root.lang = lang; root.dir = ar ? 'rtl' : 'ltr';
+    words.forEach(function (x) { x.el.textContent = say(x.en); });
+    document.title = say('Try the app');
+    $('lang').textContent = ar ? 'English' : 'العربية'; $('lang').lang = ar ? 'en' : 'ar';
+    $('back').href = ar ? '../?lang=ar' : '../';
+    $('back').firstChild.textContent = (ar ? '‹ ' : '‹ ') + say('Quotation');
+    $('reach').setAttribute('aria-pressed', app === 'reach'); $('pulse').setAttribute('aria-pressed', app === 'pulse');
+    $('sideReach').hidden = app !== 'reach'; $('sidePulse').hidden = app !== 'pulse';
+    $('pulse').classList.toggle('go', app === 'reach' && !!sent);
+  }
+  function open() {
+    $('tell').hidden = true; $('wait').hidden = false; loads++;
+    var mine = loads;
+    setTimeout(function () { if (mine === loads) $('wait').hidden = true; }, 12000);
+    var page = app === 'pulse' ? 'manager.html' : lang === 'ar' ? 'index-ar.html' : 'index.html';
+    frame.src = 'app/' + page + '?liveas=' + (app === 'pulse' ? 'manager' : 'sales') + '&livelang=' + lang;
+    try { history.replaceState(null, '', '?app=' + app + (lang === 'ar' ? '&lang=ar' : '')); } catch (e) { }
+    dress(); fit();
+    if (app === 'pulse' && sent) {
+      var hint = say('Today’s offers went up by one.') + (sent.c ? ' ' + say('Open Companies and search for') + ' ' + sent.c + '.' : '');
+      setTimeout(function () { tell(hint, 16000); }, 1800);
+    }
+  }
+  frame.addEventListener('load', function () { $('wait').hidden = true; });
+  function reset() {
+    [window.localStorage, window.sessionStorage].forEach(function (s) {
+      try { var out = []; for (var i = 0; i < s.length; i++) { var k = s.key(i); if (/^(live\.mm\.|try\.)/.test(k) && k !== 'live.mm.mm.lang') out.push(k); } out.forEach(function (k) { s.removeItem(k); }); } catch (e) { }
+    });
+    sent = null; open();
+  }
+  $('reach').addEventListener('click', function () { if (app !== 'reach') { app = 'reach'; open(); } });
+  $('pulse').addEventListener('click', function () { if (app !== 'pulse') { app = 'pulse'; open(); } });
+  $('again').addEventListener('click', reset);
+  $('lang').addEventListener('click', function () { lang = lang === 'ar' ? 'en' : 'ar'; open(); });
+  $('tellX').addEventListener('click', function () { $('tell').hidden = true; });
+  window.addEventListener('resize', fit);
+  window.addEventListener('message', function (e) {
+    var m = e.data; if (e.origin !== location.origin || !m || !m.live) return;
+    if (m.live === 'page') $('wait').hidden = true;
+    if (m.live === 'outside') tell(say('In the real app this opens on your phone. Here it stays in the demo.'), 5000);
+    if (m.live === 'sent') {
+      sent = { c: m.c || '', u: m.u || '' };
+      try { store().setItem('try.sent', JSON.stringify(sent)); } catch (e2) { }
+      setTimeout(function () { dress(); tell(say('Offer sent. Tap Pulse above to see it recorded.')); }, 6500);
+    }
+  });
+  open();
+})();
+</script>
+</body>
+</html>

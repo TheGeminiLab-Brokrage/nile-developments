@@ -54,6 +54,9 @@ h2 { font-size: clamp(26px, 3.6vw, 36px); line-height: 1.15; font-weight: 400; l
 .card li { padding-inline-start: 20px; position: relative; }
 .card li::before { content: ''; position: absolute; inset-inline-start: 2px; top: .66em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 .note { font-size: 15px; color: var(--mute); margin-top: 18px; }
+.card .try { margin-top: auto; padding-top: 22px; }
+.card .try .btn { display: block; text-align: center; background: var(--ink); color: #fff; }
+.card .try .btn:hover { background: var(--accent); border-color: var(--accent); }
 .why { margin-top: 26px; padding: 22px 26px; border-inline-start: 3px solid var(--accent); background: var(--soft); }
 .why b { font-weight: 600; }
 
@@ -194,6 +197,7 @@ html[dir=rtl] th { padding-left: 12px; padding-right: 0; }
           <li>Send offers, record activity</li>
           <li>Each agent sees their own activity</li>
         </ul>
+        <div class="try noprint"><a class="btn" id="tryReach" href="try/?app=reach">Try Reach</a></div>
       </article>
       <article class="card rec">
         <div class="tag">Our recommendation</div>
@@ -208,8 +212,10 @@ html[dir=rtl] th { padding-left: 12px; padding-right: 0; }
           <li>A full record for every brokerage</li>
           <li>New-launch and demand analysis</li>
         </ul>
+        <div class="try noprint"><a class="btn" id="tryPulse" href="try/?app=pulse">Try Pulse</a></div>
       </article>
     </div>
+    <p class="note noprint">This demo shows the sales agent and the manager. It uses a sample project and sample data, and it works on your phone or laptop.</p>
     <div class="why"><b>Why Pulse for Nile.</b> Nile sells commercial and residential. Reach makes offers faster. Pulse turns every offer into knowledge the company keeps: which brokerage asks for what, who has gone quiet, and who to call first at a new launch.</div>
   </section>
 
@@ -349,6 +355,8 @@ html[dir=rtl] th { padding-left: 12px; padding-right: 0; }
     var b = document.getElementById('lang'); b.textContent = ar ? 'English' : 'العربية'; b.lang = ar ? 'en' : 'ar';
     document.getElementById('pdf').href = ar ? 'Nile%20Developments%20-%20Quotation%20(Arabic).pdf' : 'Nile%20Developments%20-%20Quotation.pdf';
     document.title = ar ? 'عرض سعر نايل' : 'Nile Developments Quotation';
+    document.getElementById('tryReach').href = 'try/?app=reach' + (ar ? '&lang=ar' : '');
+    document.getElementById('tryPulse').href = 'try/?app=pulse' + (ar ? '&lang=ar' : '');
     try { history.replaceState(null, '', ar ? '?lang=ar' : location.pathname); } catch (e) {}
     draw();
   }
